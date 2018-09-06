@@ -26,6 +26,7 @@ $factory->define(App\Thread::class, function (Faker $faker) {
     return [
         'title' => $faker->sentence,
         'body' => implode(' ',$faker->paragraphs),
+        'user_id'=>1
     ];
 });
 

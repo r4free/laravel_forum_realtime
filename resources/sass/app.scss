@@ -1,14 +1,23 @@
-
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url("https://fonts.googleapis.com/css?family=Nunito");
 
 // Variables
-@import 'variables';
+@import "variables";
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+// materialize
+@import "~materialize-css/sass/materialize";
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+// footer{
+//   bottom: 0;
+//   position: absolute;
+//   width: 100%;
+// }
+
+nav,
+.page-footer {
+    background-color: black;
+}
+
+footer {
+    margin-top: 100px;
 }

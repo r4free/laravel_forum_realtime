@@ -9,9 +9,12 @@ window.Popper = require('popper.js').default;
  */
 
 try {
+    
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
+    require('materialize-css');
+    require('./parallax.js')
 } catch (e) {}
 
 /**
@@ -54,3 +57,13 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+window.Vue = require("vue");
+
+/**
+ * Next, we will create a fresh Vue application instance and attach it to
+ * the page. Then, you may begin adding components to this application
+ * or customize the JavaScript scaffolding to fit your unique needs.
+ */
+
+

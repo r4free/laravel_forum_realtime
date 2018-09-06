@@ -11,6 +11,23 @@
 |
 */
 
+
+use Illuminate\Support\Facades\App;
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('threads.index');
+});
+
+$this->resource('thread',"ThreadController");
+$this->post("reply","ReplyController@store")->name("reply.store");
+$this->get("reply/{thread_id}/{pagination?}","ReplyController@index");
+
+$this->get('/locale/{local}/',function ($locale){
+    session(['locale'=>$locale]);
+    App::setLocale($locale);
+    return back();
+})->name('locale.change');
+
+$this->get('/locale',function (){
+    dd(App::getLocale());
 });
