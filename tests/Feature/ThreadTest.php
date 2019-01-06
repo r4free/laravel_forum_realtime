@@ -45,16 +45,16 @@ class ThreadTest extends TestCase
         $response->assertStatus(404);
     }
 
-//    /**
-//     * needs to see ther user that thread belongs
-//     */
-//    public function testGetUserOwner()
-//    {
-//        $this->seed('UsersTableSeeder');
-//        $response = $this->authenticate()->get('/thread/1');
-//        $response->assertJsonFragment()
-//        $thread = Thread::with('user')->find(1);
-//        $response->assertSee($thread->user->name);
-//    }
+    /**
+     * needs to see ther user that thread belongs
+     */
+    public function testGetUserOwner()
+    {
+        $this->seed('UsersTableSeeder');
+        $response = $this->authenticate()->withHeaders(['Content-Type'=>'application/json','X-Requested-With'=>'XMLHttpRequest'])->json('get','/thread/1');
+        $thread = Thread::with('user')->find(1);
+        $response->assertStatus(200);
+        $response->assertJsonFragment([$thread->user->toArray(),$thread->user->toArray()['name']]);
+    }
 
 }
