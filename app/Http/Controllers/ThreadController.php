@@ -20,15 +20,15 @@ class ThreadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $threads = $this->thread->getFiltered($request->filter,$request->paginate);
 
         if (request()->ajax()) {
-            return response()->json($threads,200);
+            $threads = $this->thread->getFiltered();
+            return response()->json($threads, 200);
         }
 
-        return view('threads.index',compact('threads'));
+        return view('threads.index');
     }
 
     /**
@@ -51,8 +51,8 @@ class ThreadController extends Controller
     {
         $response = $this->thread->create($request->all());
 
-        if(request()->ajax()){
-            return response()->json($response,201);
+        if (request()->ajax()) {
+            return response()->json($response, 201);
         }
 
         return redirect()->route('thread.index')->with($response);
@@ -68,11 +68,11 @@ class ThreadController extends Controller
     {
         $thread = $this->thread->findOrFail($id);
 
-        if(request()->ajax()){
-            return response()->json($thread,200);
+        if (request()->ajax()) {
+            return response()->json($thread, 200);
         }
 
-        return view('threads.show',compact('thread'));
+        return view('threads.show', compact('thread'));
     }
 
     /**

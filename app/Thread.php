@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
-    public function getFiltered($filter = "", $paginate = 10)
+    public function getFiltered($filter = null, $paginate = 10)
     {
         if ($filter) {
             return $this->where("body", "LIKE", "%{$filter}%")->orWhere("title", "LIKE", "%{$filter}%")->get();

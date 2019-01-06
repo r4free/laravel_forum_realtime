@@ -11,9 +11,6 @@
 |
 */
 
-
-use Illuminate\Support\Facades\App;
-
 Route::get('/', function () {
     return view('threads.index');
 });
