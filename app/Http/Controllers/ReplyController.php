@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ReplyResource;
 use App\Reply;
 use Illuminate\Http\Request;
 
@@ -26,7 +27,7 @@ class ReplyController extends Controller
         $replies = $this->reply->where('thread_id',$thread_id)->orderBy('created_at','desc')->paginate($pagination);
 
         if(request()->ajax()){
-            return response()->json($replies,200);
+            return  ReplyResource::collection($replies);
         }
 
         return abort(404);

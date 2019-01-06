@@ -6,7 +6,7 @@
           <slot ></slot>
         </div>
         <div class="card-action">
-          <slot name="card-links"></slot>
+          <slot name="card-links" />
         </div>
     </div>
 </template>

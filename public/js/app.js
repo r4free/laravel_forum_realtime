@@ -138,6 +138,10 @@ Vue.component("threads-component", __webpack_require__(22));
 Vue.component("preload-component", __webpack_require__(25));
 Vue.component("dropdown-locale", __webpack_require__(27));
 
+Vue.prototype.getUrl = function () {
+    var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    return "http://" + window.location.host + "/" + url;
+};
 var app = new Vue({
     el: "#app"
 });
@@ -328,6 +332,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -355,13 +362,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.loadReplies();
         _this.reply = "";
       }).then(function () {
-        return window.location.href = "#lastComment";
+        return document.getElementById("lastComment").scrollIntoView(true);
       }).catch(function (err) {});
     },
     loadReplies: function loadReplies() {
       var _this2 = this;
 
-      axios.get("/reply/" + this.thread_id).then(function (result) {
+      return axios.get("/reply/" + this.thread_id).then(function (result) {
         _this2.replies = result.data;
         _this2.preload = false;
       }).catch(function (err) {});
@@ -394,28 +401,44 @@ var render = function() {
           }
         },
         [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.reply,
-                expression: "reply"
-              }
-            ],
-            attrs: { type: "text", placeholder: "" },
-            domProps: { value: _vm.reply },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+          _c("div", { staticClass: "input-field col s12" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.reply,
+                  expression: "reply"
                 }
-                _vm.reply = $event.target.value
+              ],
+              attrs: {
+                type: "text",
+                placeholder: "",
+                name: "reply",
+                id: "reply"
+              },
+              domProps: { value: _vm.reply },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.reply = $event.target.value
+                }
               }
-            }
-          }),
+            }),
+            _vm._v(" "),
+            _c("label", { attrs: { for: "reply" } }, [_vm._v("Comentar")])
+          ]),
           _vm._v(" "),
-          _c("button", { attrs: { type: "submit" } }, [_vm._v("Enviar")])
+          _c(
+            "button",
+            {
+              staticClass: "waves-effect waves-light btn",
+              attrs: { type: "submit" }
+            },
+            [_vm._v("Enviar")]
+          )
         ]
       ),
       _vm._v(" "),
@@ -513,19 +536,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        viewText: {
+            type: String,
+            default: 'ver'
+        }
+    },
     data: function data() {
         return {
             threads_response: []
         };
     },
-    mounted: function mounted() {
-        var _this = this;
 
-        axios.get("/thread").then(function (result) {
-            _this.threads_response = result.data.data;
-        }).catch(function (err) {});
+    methods: {
+        getThreads: function getThreads() {
+            var _this = this;
+
+            axios.get("/thread").then(function (result) {
+                _this.threads_response = result.data.data;
+            }).catch(function (err) {});
+        }
+    },
+    mounted: function mounted() {
+        this.getThreads();
     }
 });
 
@@ -540,10 +579,18 @@ var render = function() {
   return _c(
     "div",
     _vm._l(_vm.threads_response, function(thread, index) {
-      return _c("card-component", {
-        key: index,
-        attrs: { title: thread.title, body: thread.body }
-      })
+      return _c(
+        "card-component",
+        { key: index, attrs: { title: thread.title, body: thread.body } },
+        [
+          _c("template", { slot: "card-links" }, [
+            _c("a", { attrs: { href: _vm.getUrl("thread/" + thread.id) } }, [
+              _vm._v(_vm._s(_vm.viewText))
+            ])
+          ])
+        ],
+        2
+      )
     })
   )
 }

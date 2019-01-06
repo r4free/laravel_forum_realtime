@@ -1,8 +1,11 @@
 <template>
    <div >
     <form @submit.prevent="formReply()" >
-        <input type="text" v-model="reply" placeholder="">
-        <button type="submit">Enviar</button>
+        <div class="input-field col s12">
+            <input type="text" v-model="reply" placeholder="" name="reply" id="reply">
+            <label for="reply">Comentar</label>
+        </div>
+        <button type="submit" class="waves-effect waves-light btn">Enviar</button>
     </form>
     <preload-component v-if="this.preload"/>
     <card-component v-for="(reply,index) in this.replies.data" :key="index"  title="Reply" body="" classes="grey lighten-3" :id="index < 1 && 'lastComment'">
@@ -10,7 +13,7 @@
             {{reply.body}}
         </blockquote>
     </card-component>
-    
+
    </div>
 </template>
 <script>
@@ -39,11 +42,11 @@ export default {
           this.loadReplies();
           this.reply = "";
         })
-        .then(() => (window.location.href = "#lastComment"))
+        .then(() => document.getElementById("lastComment").scrollIntoView(true))
         .catch(err => {});
     },
     loadReplies() {
-      axios
+     return axios
         .get(`/reply/${this.thread_id}`)
         .then(result => {
           this.replies = result.data;

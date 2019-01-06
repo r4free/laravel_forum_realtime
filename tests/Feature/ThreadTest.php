@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Thread;
+use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -20,14 +21,17 @@ class ThreadTest extends TestCase
     public function testGetThreads()
     {
         $this->seed('UsersTableSeeder');
-        $response = $this->get('/thread');
+
+        $response = $this->authenticate()->get('/thread');
+
         $response->assertStatus(200);
+
     }
 
     public function testGetThread()
     {
         $this->seed('UsersTableSeeder');
-        $response = $this->get('/thread/1');
+        $response = $this->authenticate()->get('/thread/1');
         $response->assertStatus(200);
         $thread = Thread::find(1);
         $response->assertSee($thread->title);
@@ -37,7 +41,20 @@ class ThreadTest extends TestCase
     public function testFailGetTread()
     {
         $this->seed('UsersTableSeeder');
-        $response = $this->get('/thread/a');
+        $response = $this->authenticate()->get('/thread/a');
         $response->assertStatus(404);
     }
+
+//    /**
+//     * needs to see ther user that thread belongs
+//     */
+//    public function testGetUserOwner()
+//    {
+//        $this->seed('UsersTableSeeder');
+//        $response = $this->authenticate()->get('/thread/1');
+//        $response->assertJsonFragment()
+//        $thread = Thread::with('user')->find(1);
+//        $response->assertSee($thread->user->name);
+//    }
+
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ThreadResource;
 use App\Thread;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -18,17 +19,11 @@ class ThreadController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-
-        if (request()->ajax()) {
-            $threads = $this->thread->getFiltered();
-            return response()->json($threads, 200);
-        }
-
-        return view('threads.index');
+        return request()->ajax() ? ThreadResource::collection($this->thread->getFiltered()): view('threads.index');
     }
 
     /**
@@ -62,14 +57,14 @@ class ThreadController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Thread $thread
-     * @return \Illuminate\Http\Response
+     * @return ThreadResource
      */
     public function show($id)
     {
-        $thread = $this->thread->findOrFail($id);
+        $thread = $this->thread->with('user')->findOrFail($id);
 
         if (request()->ajax()) {
-            return response()->json($thread, 200);
+            return new ThreadResource($thread);
         }
 
         return view('threads.show', compact('thread'));

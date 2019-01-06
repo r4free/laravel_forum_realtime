@@ -13,6 +13,7 @@ Vue.component(
     require("./components/common/navbar/DropdownLocale.vue")
 );
 
+Vue.prototype.getUrl = (url = null)=>`http://${window.location.host}/${url}`;
 const app = new Vue({
     el: "#app"
 });
