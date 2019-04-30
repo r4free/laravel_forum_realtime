@@ -17,4 +17,8 @@ abstract class TestCase extends BaseTestCase
         $user = factory(User::class)->create();
         return $this->actingAs($user);
     }
+
+    public function ajax(){
+        return $this->withHeaders(['Content-Type' => 'application/json', 'X-Requested-With' => 'XMLHttpRequest']);
+    }
 }

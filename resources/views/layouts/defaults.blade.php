@@ -3,6 +3,7 @@
     @include('layouts.defaults.head')
     <body>
        <div id="app">
+
            @include('layouts.defaults.header')
            <main>
                @yield('content')

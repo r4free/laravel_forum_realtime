@@ -2,7 +2,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-       <threads-component></threads-component>
+       <threads-component class="col-12"></threads-component>
     </div>
 </div>
 

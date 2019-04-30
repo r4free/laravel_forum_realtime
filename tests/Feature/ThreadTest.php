@@ -51,10 +51,35 @@ class ThreadTest extends TestCase
     public function testGetUserOwner()
     {
         $this->seed('UsersTableSeeder');
-        $response = $this->authenticate()->withHeaders(['Content-Type'=>'application/json','X-Requested-With'=>'XMLHttpRequest'])->json('get','/thread/1');
+        $response = $this->authenticate()->ajax()->json('get', '/thread/1');
         $thread = Thread::with('user')->find(1);
         $response->assertStatus(200);
-        $response->assertJsonFragment([$thread->user->toArray(),$thread->user->toArray()['name']]);
+        $response->assertJsonFragment([$thread->user->toArray()]);
+    }
+
+    /**
+     * test create new thread
+     */
+    public function testCreateThread()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->authenticate()->ajax()->json('post','thread', [
+            'title' => 'Create Thread test',
+            'body' => 'this is a test to create a thread',
+        ]);
+
+        $thread = Thread::first();
+        $response->assertStatus(201)->assertJsonFragment(['created'=>'success',$thread->toArray()]);
+
+        $response = $this->authenticate()->post('thread', [
+            'title' => 'Create Thread test',
+            'body' => 'this is a test to create a thread',
+            'user_id'=>$user->id
+        ]);
+
+        $response->assertStatus(302);
+
     }
 
 }

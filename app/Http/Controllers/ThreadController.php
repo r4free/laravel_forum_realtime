@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ThreadRequest;
 use App\Http\Resources\ThreadResource;
 use App\Thread;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
 
 class ThreadController extends Controller
 {
+    /**
+     * @var Thread
+     */
     private $thread;
 
+    /**
+     * ThreadController constructor.
+     * @param Thread $thread
+     */
     public function __construct(Thread $thread)
     {
         $this->thread = $thread;
@@ -39,18 +46,22 @@ class ThreadController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param ThreadRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ThreadRequest $request)
     {
-        $response = $this->thread->create($request->all());
+        $thread = $this->thread->create($request->all());
+        $response = [
+            'created'=>'success',
+            'thread'=>$thread,
+        ];
 
         if (request()->ajax()) {
             return response()->json($response, 201);
         }
 
-        return redirect()->route('thread.index')->with($response);
+        return view('thread.index');
     }
 
     /**
