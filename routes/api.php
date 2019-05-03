@@ -18,4 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::apiResource('fluxos','FluxoController');
+Route::apiResource('fluxo','FluxoController');
+Route::apiResource('assunto','AssuntoController');
