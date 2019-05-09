@@ -18,8 +18,8 @@ class CreateLinksTable extends Migration
             $table->string('nome');
             $table->string('url');
             $table->boolean('nova_aba')->default(false);
-            $table->integer('fechamento_id');
-//            $table->foreign('fechamento_id')->references('id')->on('fechamentos');
+            $table->unsignedInteger('fechamento_id');
+//            $table->foreign('fechamento_id')->references('id')->on('fechamentos')->onDelete('cascade');
             $table->timestamps();
         });
     }

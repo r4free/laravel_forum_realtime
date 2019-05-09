@@ -17,16 +17,16 @@ class CreateFluxosTable extends Migration
             $table->increments('id');
 
             $table->unsignedInteger('departamento_id');
-            $table->foreign('departamento_id')->references('id')->on('departamentos');
+//            $table->foreign('departamento_id')->references('id')->on('departamentos');
 
             $table->unsignedInteger('assunto_id');
-            $table->foreign('assunto_id')->references('id')->on('assuntos');
+//            $table->foreign('assunto_id')->references('id')->on('assuntos');
 
             $table->unsignedInteger('fechamento_id');
-            $table->foreign('fechamento_id')->references('id')->on('fechamentos');
+//            $table->foreign('fechamento_id')->references('id')->on('fechamentos');
 
             $table->unsignedInteger('execucao_id');
-            $table->foreign('execucao_id')->references('id')->on('execucoes');
+//            $table->foreign('execucao_id')->references('id')->on('execucoes');
 
             $table->timestamps();
         });

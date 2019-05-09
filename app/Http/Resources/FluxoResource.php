@@ -15,6 +15,7 @@ class FluxoResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id'=>$this->id,
             'departamento' => $this->departamento,
 
 

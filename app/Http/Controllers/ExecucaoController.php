@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Assunto;
-use App\Http\Resources\AssuntoResource;
+use App\Http\Resources\ExecucaoResource;
+use App\Execucao;
 use Illuminate\Http\Request;
 
-class AssuntoController extends Controller
+class ExecucaoController extends Controller
 {
     /**
-     * @var Assunto
+     * @var Execucao
      */
-    private $assunto;
+    private $execucao;
 
     /**
-     * AssuntoController constructor.
-     * @param Assunto $assunto
+     * ExecucaoController constructor.
+     * @param Execucao $execucao
      */
-    public function __construct(Assunto $assunto)
+    public function __construct(Execucao $execucao)
     {
-        $this->assunto = $assunto;
+        $this->execucao = $execucao;
     }
 
     /**
@@ -29,7 +29,7 @@ class AssuntoController extends Controller
      */
     public function index()
     {
-        return AssuntoResource::collection($this->assunto->orderBy('updated_at','desc')->get());
+        return ExecucaoResource::collection($this->execucao->orderBy('updated_at','desc')->get());
     }
 
     /**
@@ -40,7 +40,7 @@ class AssuntoController extends Controller
      */
     public function store(Request $request)
     {
-        return response()->json(['message' => 'Assunto cadastrado com sucesso', 'data' => $this->assunto->create($request->only('nome'))], 201);
+        return response()->json(['message' => 'Execucao cadastrado com sucesso', 'data' => $this->execucao->create($request->all('nome'))], 201);
     }
 
     /**
@@ -51,7 +51,7 @@ class AssuntoController extends Controller
      */
     public function show($id)
     {
-        return response()->json(['data' => $this->assunto->findOrFail($id)], 200);
+        return response()->json(['data' => $this->execucao->findOrFail($id)], 200);
     }
 
     /**
@@ -63,7 +63,7 @@ class AssuntoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return response()->json(['data' => $this->assunto->findOrFail($id)->update($request->only('nome'))], 201);
+        return response()->json(['data' => $this->execucao->findOrFail($id)->update($request->only('nome'))], 201);
     }
 
     /**
@@ -74,6 +74,6 @@ class AssuntoController extends Controller
      */
     public function destroy($id)
     {
-        return response()->json(['data' => $this->assunto->findOrFail($id)->delete()], 203);
+        return response()->json(['data' => $this->execucao->findOrFail($id)->delete()], 203);
     }
 }

@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Assunto;
-use App\Http\Resources\AssuntoResource;
+use App\Http\Resources\LinkResource;
+use App\Link;
 use Illuminate\Http\Request;
 
-class AssuntoController extends Controller
+class LinkController extends Controller
 {
     /**
-     * @var Assunto
+     * @var Link
      */
-    private $assunto;
+    private $link;
 
     /**
-     * AssuntoController constructor.
-     * @param Assunto $assunto
+     * LinkController constructor.
+     * @param Link $link
      */
-    public function __construct(Assunto $assunto)
+    public function __construct(Link $link)
     {
-        $this->assunto = $assunto;
+        $this->link = $link;
     }
 
     /**
@@ -29,7 +29,7 @@ class AssuntoController extends Controller
      */
     public function index()
     {
-        return AssuntoResource::collection($this->assunto->orderBy('updated_at','desc')->get());
+        return LinkResource::collection($this->link->orderBy('updated_at','desc')->get());
     }
 
     /**
@@ -40,7 +40,7 @@ class AssuntoController extends Controller
      */
     public function store(Request $request)
     {
-        return response()->json(['message' => 'Assunto cadastrado com sucesso', 'data' => $this->assunto->create($request->only('nome'))], 201);
+        return response()->json(['message' => 'Link cadastrado com sucesso', 'data' => $this->link->create($request->all())], 201);
     }
 
     /**
@@ -51,7 +51,7 @@ class AssuntoController extends Controller
      */
     public function show($id)
     {
-        return response()->json(['data' => $this->assunto->findOrFail($id)], 200);
+        return response()->json(['data' => $this->link->findOrFail($id)], 200);
     }
 
     /**
@@ -63,7 +63,7 @@ class AssuntoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return response()->json(['data' => $this->assunto->findOrFail($id)->update($request->only('nome'))], 201);
+        return response()->json(['data' => $this->link->findOrFail($id)->update($request->only('nome','nova_aba','link'))], 201);
     }
 
     /**
@@ -74,6 +74,6 @@ class AssuntoController extends Controller
      */
     public function destroy($id)
     {
-        return response()->json(['data' => $this->assunto->findOrFail($id)->delete()], 203);
+        return response()->json(['data' => $this->link->findOrFail($id)->delete()], 203);
     }
 }

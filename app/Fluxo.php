@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Fluxo extends Model
 {
+    protected $fillable = ['departamento_id','assunto_id','execucao_id','fechamento_id'];
     public function departamento()
     {
         return $this->belongsTo(Departamento::class );

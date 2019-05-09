@@ -20,3 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::apiResource('fluxo','FluxoController');
 Route::apiResource('assunto','AssuntoController');
+Route::apiResource('link','LinkController');
+Route::apiResource('departamento','DepartamentoController');
+Route::apiResource('fechamento','FechamentoController');
+Route::apiResource('execucao','ExecucaoController');
